@@ -1,0 +1,54 @@
+$days: (
+  "mon": 0,
+  "tue": 1,
+  "wed": 2,
+  "thu": 3,
+  "fri": 4,
+  "sat": 5,
+  "sun": 6,
+);
+
+$size: 100px;
+$sizeGap: 1px;
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  margin: $size auto;
+  width: 7 * $size + 7px;
+
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: $size;
+    height: $size;
+    margin-top: $sizeGap;
+    margin-left: $sizeGap;
+    background: white;
+    border: 1px solid black;
+    transition: transform 0.5s;
+    cursor: pointer;
+
+    &:hover {
+      background: pink;
+      transform: translateY(-20px);
+    }
+  }
+}
+
+@for $i from 1 through 31 {
+  .calendar div:nth-child(#{$i})::after {
+    content: "#{$i}";
+  }
+}
+
+@for $i from 28 through 31 {
+  .calendar-#{$i} div:nth-child(#{$i}) ~ div {}
+}
+
+@each $day, $order in $days {
+  .calendar-#{$day} div:first-child {
+    margin-left: $order * $size + $sizeGap;
+  }
+}
